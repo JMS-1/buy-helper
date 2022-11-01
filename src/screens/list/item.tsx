@@ -17,7 +17,13 @@ export const Item: React.FC<IItemProps> = observer((props) => {
 
     const self = React.useRef<HTMLDivElement>(null)
 
-    const onClick = React.useCallback(() => (data.editId = id), [id])
+    const { connection } = data
+
+    const onClick = React.useCallback(() => {
+        if (connection === 'connected') {
+            data.editId = id
+        }
+    }, [connection, id])
 
     React.useEffect(() => {
         if (!self.current) {

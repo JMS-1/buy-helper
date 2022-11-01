@@ -18,7 +18,7 @@ module.exports = (env) => ({
     devtool: 'source-map',
 
     /** Hier wird nur ein Einstieg in die Anwendung verwendet - dynamische (Lazy) Komponenten können Chunks erzeugen. */
-    entry: { index: path.join(__dirname, './src/index.tsx') },
+    entry: { prices: path.join(__dirname, './src/index.tsx') },
 
     ignoreWarnings: [/Failed to parse source map/],
 
@@ -95,7 +95,7 @@ module.exports = (env) => ({
     /** Kopieren statischer Dateien und Extraktion des Stylings - separat für alle Chunks.  */
     plugins: [
         new copyStatic({ patterns: [{ from: publicFolder }] }),
-        new extractCss({ filename: 'index.css', ignoreOrder: true }),
+        new extractCss({ filename: 'prices.css', ignoreOrder: true }),
         !env.production && new ReactRefreshWebpackPlugin(),
     ].filter(Boolean),
 

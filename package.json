@@ -61,7 +61,7 @@
     "prettier": "@insynergie/prettier-config",
     "scripts": {
         "build": "rimraf build && webpack build --env production --stats errors-only",
-        "watch": "webpack serve --port 3290 --hot --open"
+        "watch": "webpack serve --port 3290 --hot --open-target prices.html"
     },
     "stylelint": {
         "extends": "@insynergie/stylelint-config",

@@ -7,12 +7,10 @@
             "name": "Debug (Standalone)",
             "port": 32901,
             "request": "launch",
-            "runtimeArgs": [
-                "--remote-debugging-port=32901"
-            ],
+            "runtimeArgs": ["--remote-debugging-port=32901"],
             "sourceMaps": true,
             "type": "chrome",
-            "url": "http://localhost:3290",
+            "url": "http://localhost:3290/prices.html",
             "userDataDir": "${workspaceFolder}/.vscode/chrome",
             "webRoot": "${workspaceFolder}"
         }

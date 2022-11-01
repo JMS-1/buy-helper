@@ -16,6 +16,8 @@ const storageKey = 'jms.buy-help.blob'
 export class DataStore {
     readonly all: IProduct[] = []
 
+    connection: 'pending' | 'retry' | 'failed' | 'connected' = 'pending'
+
     private _userId = ''
 
     get userId(): string {
@@ -26,6 +28,12 @@ export class DataStore {
         localStorage.setItem(userKey, userId)
 
         this._userId = userId
+
+        if (this._userId) {
+            this.connection = 'retry'
+
+            this.load()
+        }
     }
 
     editId: string | undefined = undefined
@@ -39,14 +47,24 @@ export class DataStore {
             _userId: observable,
             addOrUpdate: action,
             all: observable,
+            connection: observable,
             editId: observable,
             ordered: computed,
+            reconnect: action,
             remove: action,
         })
+
+        if (this._userId) {
+            this.load()
+        }
     }
 
     private syncStorage(): void {
         localStorage.setItem(storageKey, JSON.stringify(this.all))
+
+        if (this.connection === 'connected') {
+            this.save()
+        }
     }
 
     get ordered(): IProduct[] {
@@ -89,5 +107,69 @@ export class DataStore {
         this.editId = undefined
 
         this.syncStorage()
+    }
+
+    private load(): void {
+        const req = new XMLHttpRequest()
+
+        req.onload = () => {
+            if (req.status !== 200) {
+                this.connection = 'failed'
+
+                return
+            }
+
+            try {
+                const res = JSON.parse(req.responseText)
+
+                if (res.list) {
+                    this.all.splice(0, this.all.length, ...JSON.parse(res.list))
+                }
+
+                this.connection = 'connected'
+            } catch (error) {
+                this.connection = 'failed'
+            }
+        }
+
+        req.onerror = () => (this.connection = 'failed')
+        req.ontimeout = () => (this.connection = 'failed')
+
+        req.open('POST', 'https://www.psimarron.net/Mobile/BuyIt/getprices.php')
+        req.setRequestHeader('Content-Type', 'application/json;charset=UTF-8')
+        req.send(JSON.stringify({ userid: this._userId }))
+    }
+
+    private save(): void {
+        const req = new XMLHttpRequest()
+
+        req.onload = () => {
+            if (req.status !== 200) {
+                this.connection = 'failed'
+
+                return
+            }
+        }
+
+        req.onerror = () => (this.connection = 'failed')
+        req.ontimeout = () => (this.connection = 'failed')
+
+        req.open('POST', 'https://www.psimarron.net/Mobile/BuyIt/setprices.php')
+        req.setRequestHeader('Content-Type', 'application/json;charset=UTF-8')
+        req.send(JSON.stringify({ list: JSON.stringify(this.all), userid: this._userId }))
+    }
+
+    reconnect(): void {
+        if (!this._userId) {
+            return
+        }
+
+        if (this.connection !== 'failed') {
+            return
+        }
+
+        this.connection = 'retry'
+
+        this.load()
     }
 }

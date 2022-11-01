@@ -13,8 +13,17 @@ interface IListProps {
 
 export const List: React.FC<IListProps> = observer((props) => {
     const add = React.useRef<HTMLSpanElement>(null)
+    const reload = React.useRef<HTMLSpanElement>(null)
 
-    const onAdd = React.useCallback(() => (data.editId = ''), [])
+    const { connection } = data
+
+    const onAdd = React.useCallback(() => {
+        if (connection === 'connected') {
+            data.editId = ''
+        }
+    }, [connection])
+
+    const onReload = React.useCallback(() => data.reconnect(), [])
 
     React.useEffect(() => {
         if (!add.current) {
@@ -28,11 +37,27 @@ export const List: React.FC<IListProps> = observer((props) => {
         return () => touch.destroy()
     }, [add, onAdd])
 
+    React.useEffect(() => {
+        if (!reload.current) {
+            return
+        }
+
+        const touch = new Hammer(reload.current)
+
+        touch.on('tap', onReload)
+
+        return () => touch.destroy()
+    }, [reload, onReload])
+
     return (
         <div className={clsx(styles.list, props.className)}>
             <h1>
                 <span>{translations.strings.list}</span>
-                <span ref={add}>⨁&nbsp;</span>
+                <span>&nbsp;</span>
+                <span ref={add}>⨁</span>
+                <span ref={reload} className={clsx(connection === 'failed' && styles.failed)}>
+                    {connection === 'connected' ? '◉' : '◌'}&nbsp;
+                </span>
             </h1>
             <div>
                 {data.ordered.map((p) => (
