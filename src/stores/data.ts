@@ -9,17 +9,34 @@ export interface IProduct {
     variant: string
 }
 
+const userKey = 'jms.buy-help.user'
+
 const storageKey = 'jms.buy-help.blob'
 
 export class DataStore {
     readonly all: IProduct[] = []
 
+    private _userId = ''
+
+    get userId(): string {
+        return this._userId
+    }
+
+    set userId(userId: string) {
+        localStorage.setItem(userKey, userId)
+
+        this._userId = userId
+    }
+
     editId: string | undefined = undefined
 
     constructor() {
+        this._userId = localStorage.getItem(userKey) || ''
+
         this.all = JSON.parse(localStorage.getItem(storageKey) ?? '[]')
 
-        makeObservable<DataStore, never>(this, {
+        makeObservable<DataStore, '_userId'>(this, {
+            _userId: observable,
             addOrUpdate: action,
             all: observable,
             editId: observable,

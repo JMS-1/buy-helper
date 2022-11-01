@@ -3,6 +3,7 @@ export const fallback = {
     confirm: 'Wirklich Löschen (weg ist weg)!',
     form: 'Artikel pflegen',
     list: 'Alle Artikel',
+    logon: 'Benutzerkennung',
     name: 'Artikel',
     price: 'Preis (€) pro ',
     remove: 'Löschen',
