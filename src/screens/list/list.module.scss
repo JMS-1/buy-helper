@@ -11,6 +11,10 @@
         column-gap: 0.2em;
         align-items: center;
 
+        > span {
+            display: inline-block;
+        }
+
         > :local(.failed) {
             color: #ff0000;
         }

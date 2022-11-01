@@ -4,7 +4,7 @@
             "linux": {
                 "runtimeExecutable": "/snap/bin/chromium"
             },
-            "name": "Debug (Standalone)",
+            "name": "Debug",
             "port": 32901,
             "request": "launch",
             "runtimeArgs": ["--remote-debugging-port=32901"],
