@@ -1,3 +1,4 @@
+import 'hammerjs'
 import './index.scss'
 
 import { configure } from 'mobx'

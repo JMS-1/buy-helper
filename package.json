@@ -64,7 +64,10 @@
         "watch": "webpack serve --port 3290 --hot --open"
     },
     "stylelint": {
-        "extends": "@insynergie/stylelint-config"
+        "extends": "@insynergie/stylelint-config",
+        "rules": {
+            "value-no-vendor-prefix": null
+        }
     },
     "version": "0.0.1"
 }

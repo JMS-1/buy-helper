@@ -1,0 +1,20 @@
+:local(.item) {
+    max-width: calc(100% - 2em);
+    padding: 0.5em 1em;
+    cursor: pointer;
+    background: #eeeeee;
+    border: 1px solid grey;
+    border-radius: 4px;
+
+    > div:first-child {
+        overflow: hidden;
+        font-size: 125%;
+        font-weight: bold;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    > div:last-child {
+        font-style: italic;
+    }
+}

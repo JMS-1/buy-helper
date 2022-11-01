@@ -1,0 +1,19 @@
+:local(.list) {
+    display: grid;
+    grid-template-rows: auto 1fr;
+    width: calc(100% - 2em);
+    height: calc(100% - 1em);
+    overflow: hidden;
+
+    > div {
+        display: grid;
+        grid-auto-rows: auto;
+        grid-auto-flow: row;
+        row-gap: 0.5em;
+        width: calc(100% - 1em);
+        height: 100%;
+        padding-right: 1em;
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
+}
