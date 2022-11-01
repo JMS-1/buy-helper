@@ -1,4 +1,5 @@
 import { clsx } from 'clsx'
+import { observable } from 'mobx'
 import { observer } from 'mobx-react'
 import * as React from 'react'
 
@@ -23,14 +24,15 @@ const priceReg = /^\s*\d+(,\d{0,2})?\s*$/
 export const Form: React.FC<IFormProps> = observer((props) => {
     const { editId, all } = data
 
-    const doCancel = React.useRef<HTMLButtonElement>(null)
-    const doDelete = React.useRef<HTMLButtonElement>(null)
-    const doSave = React.useRef<HTMLButtonElement>(null)
+    const doCancel = React.useRef<HTMLDivElement>(null)
+    const doDelete = React.useRef<HTMLDivElement>(null)
+    const doSave = React.useRef<HTMLDivElement>(null)
 
     const [confirm, setConfirm] = React.useState(false)
 
     const edit = React.useMemo(
-        () => all.find((a) => a.id === editId) || { id: '', name: '', unit: 'kg', unitPrice: 1, variant: '' },
+        () =>
+            observable(all.find((a) => a.id === editId) || { id: '', name: '', unit: 'kg', unitPrice: 1, variant: '' }),
         [all, editId]
     )
 
@@ -77,6 +79,42 @@ export const Form: React.FC<IFormProps> = observer((props) => {
         }
     }, [edit, confirm])
 
+    React.useEffect(() => {
+        if (!doCancel.current) {
+            return
+        }
+
+        const touch = new Hammer(doCancel.current)
+
+        touch.on('tap', onCancel)
+
+        return () => touch.destroy()
+    }, [doCancel, onCancel])
+
+    React.useEffect(() => {
+        if (!doSave.current) {
+            return
+        }
+
+        const touch = new Hammer(doSave.current)
+
+        touch.on('tap', onSave)
+
+        return () => touch.destroy()
+    }, [doSave, onSave])
+
+    React.useEffect(() => {
+        if (!doDelete.current) {
+            return
+        }
+
+        const touch = new Hammer(doDelete.current)
+
+        touch.on('tap', onRemove)
+
+        return () => touch.destroy()
+    }, [doDelete, onRemove])
+
     return (
         <div className={clsx(styles.form, props.className)}>
             <h1>{translations.strings.form}</h1>
@@ -97,16 +135,12 @@ export const Form: React.FC<IFormProps> = observer((props) => {
                     <input size={4} type='text' value={priceToText(edit.unitPrice)} onChange={setPrice} />
                 </label>
                 <div>
-                    <button ref={doCancel} onClick={onCancel}>
-                        {translations.strings.cancel}
-                    </button>
-                    <button ref={doSave} disabled={!canSave} onClick={onSave}>
+                    <div ref={doCancel}>{translations.strings.cancel}</div>
+                    <div ref={doSave} className={clsx(!canSave && styles.disabled)}>
                         {translations.strings.save}
-                    </button>
+                    </div>
                     {editId && (
-                        <button ref={doDelete} onClick={onRemove}>
-                            {confirm ? translations.strings.confirm : translations.strings.remove}
-                        </button>
+                        <div ref={doDelete}>{confirm ? translations.strings.confirm : translations.strings.remove}</div>
                     )}
                 </div>
             </div>

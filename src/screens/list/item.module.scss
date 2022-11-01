@@ -1,10 +1,13 @@
 :local(.item) {
     max-width: calc(100% - 2em);
+    height: fit-content;
+    height: -moz-fit-content;
     padding: 0.5em 1em;
     cursor: pointer;
     background: #eeeeee;
     border: 1px solid grey;
     border-radius: 4px;
+    box-shadow: 1px 1px 0 grey;
 
     > div:first-child {
         overflow: hidden;

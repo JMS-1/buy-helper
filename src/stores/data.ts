@@ -1,4 +1,4 @@
-import { computed, makeObservable, observable } from 'mobx'
+import { action, computed, makeObservable, observable } from 'mobx'
 import { v4 as uuid } from 'uuid'
 
 export interface IProduct {
@@ -9,23 +9,27 @@ export interface IProduct {
     variant: string
 }
 
+const storageKey = 'jms.buy-help.blob'
+
 export class DataStore {
     readonly all: IProduct[] = []
 
     editId: string | undefined = undefined
 
     constructor() {
-        for (let n = 0; n++ <= 100; ) {
-            this.all.push({
-                id: uuid(),
-                name: `Name ${n}`,
-                unit: 'kg',
-                unitPrice: Math.floor(1000 * Math.random()) / 100,
-                variant: n % 13 ? '' : `Variante ${n}`,
-            })
-        }
+        this.all = JSON.parse(localStorage.getItem(storageKey) ?? '[]')
 
-        makeObservable<DataStore, never>(this, { all: observable, editId: observable, ordered: computed })
+        makeObservable<DataStore, never>(this, {
+            addOrUpdate: action,
+            all: observable,
+            editId: observable,
+            ordered: computed,
+            remove: action,
+        })
+    }
+
+    private syncStorage(): void {
+        localStorage.setItem(storageKey, JSON.stringify(this.all))
     }
 
     get ordered(): IProduct[] {
@@ -52,6 +56,8 @@ export class DataStore {
         }
 
         this.editId = undefined
+
+        this.syncStorage()
     }
 
     remove(product: IProduct): void {
@@ -64,5 +70,7 @@ export class DataStore {
         this.all.splice(index, 1)
 
         this.editId = undefined
+
+        this.syncStorage()
     }
 }

@@ -42,6 +42,25 @@
             column-gap: 0.5em;
             align-items: center;
             justify-content: flex-start;
+            cursor: pointer;
+
+            > div {
+                padding: 0.2em 0.3em;
+                background: #eeeeee;
+                border: 1px solid black;
+                border-radius: 4px;
+                box-shadow: 1px 1px 0 grey;
+
+                &:local(.disabled) {
+                    pointer-events: none;
+                    cursor: unset;
+                    opacity: 50%;
+                }
+
+                &:hover:not(:local(.disabled)) {
+                    background: #dddddd;
+                }
+            }
         }
     }
 }

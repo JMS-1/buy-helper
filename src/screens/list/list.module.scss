@@ -1,9 +1,16 @@
 :local(.list) {
     display: grid;
-    grid-template-rows: auto 1fr;
+    grid-template-rows: auto auto 1fr;
     width: calc(100% - 2em);
     height: calc(100% - 1em);
     overflow: hidden;
+
+    > h1 {
+        display: grid;
+        grid-template-columns: auto auto;
+        align-items: center;
+        justify-content: space-between;
+    }
 
     > div {
         display: grid;
@@ -11,8 +18,9 @@
         grid-auto-flow: row;
         row-gap: 0.5em;
         width: calc(100% - 1em);
-        height: 100%;
+        height: calc(100% - 4px);
         padding-right: 1em;
+        padding-bottom: 4px;
         overflow-x: hidden;
         overflow-y: auto;
     }
