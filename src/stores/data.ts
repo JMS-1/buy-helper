@@ -135,7 +135,7 @@ export class DataStore {
         req.onerror = () => (this.connection = 'failed')
         req.ontimeout = () => (this.connection = 'failed')
 
-        req.open('POST', 'getprices.php')
+        req.open('POST', 'https://www.psimarron.net/Mobile/BuyIt/getprices.php')
         req.setRequestHeader('Content-Type', 'application/json;charset=UTF-8')
         req.send(JSON.stringify({ userid: this._userId }))
     }
@@ -149,12 +149,23 @@ export class DataStore {
 
                 return
             }
+
+            try {
+                const res = JSON.parse(req.responseText)
+
+                if (!res.success) {
+                    this.connection = 'failed'
+                    this.userId = ''
+                }
+            } catch (error) {
+                this.connection = 'failed'
+            }
         }
 
         req.onerror = () => (this.connection = 'failed')
         req.ontimeout = () => (this.connection = 'failed')
 
-        req.open('POST', 'setprices.php')
+        req.open('POST', 'https://www.psimarron.net/Mobile/BuyIt/setprices.php')
         req.setRequestHeader('Content-Type', 'application/json;charset=UTF-8')
         req.send(JSON.stringify({ list: JSON.stringify(this.all), userid: this._userId }))
     }

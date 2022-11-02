@@ -9,7 +9,7 @@
 	$insert = $con->prepare('INSERT INTO prices (userid, list) VALUES(?, ?)');
 	$insert->bind_param('ss', $userid, $list);
 
-	$insert->execute();
+	$success = $insert->execute();
 
 	$insert->close();
 	$con->close();
@@ -20,7 +20,7 @@
 	header('Access-Control-Allow-Headers: origin, x-requested-with, content-type');
 	header('Access-Control-Allow-Methods: PUT, GET, POST, DELETE, OPTIONS');
 
-	$response["success"] = true;
+	$response["success"] = $success;
 	
 	echo json_encode($response);
 ?>
