@@ -36,7 +36,7 @@ export const Logon: React.FC<ILogonProps> = observer((props) => {
             <div>
                 <div>{translations.strings.logon}</div>
                 <input type='text' value={userId} onChange={onChange} />
-                <div ref={self} className={clsx(!userId && styles.disabled)}>
+                <div ref={self} className={clsx('button', !userId && 'disabled')}>
                     {translations.strings.save}
                 </div>
             </div>

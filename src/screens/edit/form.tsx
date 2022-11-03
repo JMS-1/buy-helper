@@ -3,6 +3,7 @@ import { observable } from 'mobx'
 import { observer } from 'mobx-react'
 import * as React from 'react'
 
+import { Calc, priceReg } from './calc'
 import styles from './form.module.scss'
 
 import { data, translations } from '../../stores'
@@ -18,8 +19,6 @@ function priceToText(price: number | string): string {
 
     return ` ${price}`.replace(/\./g, ',')
 }
-
-const priceReg = /^\s*\d+(,\d{0,2})?\s*$/
 
 export const Form: React.FC<IFormProps> = observer((props) => {
     const { editId, all } = data
@@ -58,6 +57,12 @@ export const Form: React.FC<IFormProps> = observer((props) => {
         setConfirm(false)
 
         edit.unitPrice = (ev.target.value || '') as unknown as number
+    }
+
+    const setCalcPrice = (price: number): void => {
+        setConfirm(false)
+
+        edit.unitPrice = price
     }
 
     const { name, unit, unitPrice } = edit
@@ -131,16 +136,21 @@ export const Form: React.FC<IFormProps> = observer((props) => {
                     <span>
                         {translations.strings.price}
                         <input type='text' value={edit.unit} onChange={setUnit} />
+                        <Calc setUnitPrice={setCalcPrice} unit={edit.unit} />
                     </span>
                     <input size={4} type='text' value={priceToText(edit.unitPrice)} onChange={setPrice} />
                 </label>
                 <div>
-                    <div ref={doCancel}>{translations.strings.cancel}</div>
-                    <div ref={doSave} className={clsx(!canSave && styles.disabled)}>
+                    <div ref={doCancel} className='button'>
+                        {translations.strings.cancel}
+                    </div>
+                    <div ref={doSave} className={clsx('button', !canSave && 'disabled')}>
                         {translations.strings.save}
                     </div>
                     {editId && (
-                        <div ref={doDelete}>{confirm ? translations.strings.confirm : translations.strings.remove}</div>
+                        <div ref={doDelete} className='button'>
+                            {confirm ? translations.strings.confirm : translations.strings.remove}
+                        </div>
                     )}
                 </div>
             </div>

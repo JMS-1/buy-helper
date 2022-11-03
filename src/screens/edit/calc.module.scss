@@ -1,0 +1,18 @@
+:local(.calc) {
+    position: relative;
+
+    > :local(.dialog) {
+        position: absolute;
+        top: 0.6em;
+        left: 1.4em;
+        padding: 0.5em;
+        background: #ffffff;
+        border: 1px solid #000000;
+        border-radius: 4px;
+        box-shadow: 1px 1px 0 #222222;
+
+        > h4 {
+            margin: 0 0 0.5em;
+        }
+    }
+}

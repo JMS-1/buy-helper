@@ -1,4 +1,9 @@
 export const fallback = {
+    calc: {
+        amount: 'Menge ({unit})',
+        price: 'Preis (€)',
+        title: 'Umrechnen',
+    },
     cancel: 'Verwerfen',
     confirm: 'Wirklich Löschen (weg ist weg)!',
     form: 'Artikel pflegen',
