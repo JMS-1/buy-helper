@@ -13,6 +13,9 @@ const extractCss = require('mini-css-extract-plugin')
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin')
 const ReactRefreshTypeScript = require('react-refresh-typescript')
 
+/** Variablen setzen. */
+const { DefinePlugin } = require('webpack')
+
 module.exports = (env) => ({
     /** Source Maps für das Debuggen mit Breakpoints aktivieren. */
     devtool: 'source-map',
@@ -96,6 +99,7 @@ module.exports = (env) => ({
     plugins: [
         new copyStatic({ patterns: [{ from: publicFolder }] }),
         new extractCss({ filename: 'prices.css', ignoreOrder: true }),
+        new DefinePlugin({ __API__: !env.production ? '"https://mobile.psimarron.net/BuyIt/"' : '""' }),
         !env.production && new ReactRefreshWebpackPlugin(),
     ].filter(Boolean),
 

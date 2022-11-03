@@ -1,6 +1,9 @@
 import { action, computed, makeObservable, observable } from 'mobx'
 import { v4 as uuid } from 'uuid'
 
+// eslint-disable-next-line @typescript-eslint/naming-convention
+declare const __API__: string
+
 export interface IProduct {
     id: string
     name: string
@@ -135,7 +138,7 @@ export class DataStore {
         req.onerror = () => (this.connection = 'failed')
         req.ontimeout = () => (this.connection = 'failed')
 
-        req.open('POST', 'getprices.php')
+        req.open('POST', __API__ + 'getprices.php')
         req.setRequestHeader('Content-Type', 'application/json;charset=UTF-8')
         req.send(JSON.stringify({ userid: this._userId }))
     }
@@ -165,7 +168,7 @@ export class DataStore {
         req.onerror = () => (this.connection = 'failed')
         req.ontimeout = () => (this.connection = 'failed')
 
-        req.open('POST', 'setprices.php')
+        req.open('POST', __API__ + 'setprices.php')
         req.setRequestHeader('Content-Type', 'application/json;charset=UTF-8')
         req.send(JSON.stringify({ list: JSON.stringify(this.all), userid: this._userId }))
     }
