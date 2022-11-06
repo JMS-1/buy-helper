@@ -1,0 +1,28 @@
+:local(.button) {
+    padding: 0.2em 0.5em;
+    color: #ffffff;
+    text-align: center;
+    white-space: no-wrap;
+    background: #4d4dfe;
+    border: 1px solid #000000;
+    border-radius: 4px;
+    box-shadow: 1px 1px 0 #808080;
+
+    &:local(.bad) {
+        background: #ff0000;
+    }
+
+    &:local(.disabled) {
+        pointer-events: none;
+        cursor: unset;
+        opacity: 50%;
+    }
+
+    &:hover:not(:local(.disabled)) {
+        background: #1818fc;
+
+        &:local(.bad) {
+            background: #ef6e6e;
+        }
+    }
+}

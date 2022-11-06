@@ -14,6 +14,7 @@ export const Root = observer((_props: IRootProps) => {
     return (
         <div className={styles.root}>
             {data.userId ? typeof data.editId === 'string' ? <Form /> : <List /> : <Logon />}
+            <img src='background.png' />
         </div>
     )
 })

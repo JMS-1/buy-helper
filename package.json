@@ -11,9 +11,6 @@
             "not op_mini all"
         ]
     },
-    "dependencies": {
-        "rimraf": "^3.0.2"
-    },
     "description": "Einkaufshelfer - Preisübersicht",
     "devDependencies": {
         "@insynergie/eslint-config": "^2.1.1",
@@ -22,13 +19,13 @@
         "@pmmmwh/react-refresh-webpack-plugin": "^0.5.8",
         "@types/hammerjs": "^2.0.41",
         "@types/node": "^18.11.9",
-        "@types/react": "^18.0.24",
+        "@types/react": "^18.0.25",
         "@types/react-dom": "^18.0.8",
         "@types/uuid": "^8.3.4",
         "clsx": "^1.2.1",
         "copy-webpack-plugin": "^11.0.0",
         "css-loader": "^6.7.1",
-        "eslint": "^8.26.0",
+        "eslint": "^8.27.0",
         "fastest-validator": "^1.15.0",
         "hammerjs": "^2.0.8",
         "mini-css-extract-plugin": "^2.6.1",
@@ -41,7 +38,8 @@
         "react-refresh": "^0.14.0",
         "react-refresh-typescript": "^2.0.7",
         "react-router-dom": "^6.4.3",
-        "sass": "^1.55.0",
+        "rimraf": "^3.0.2",
+        "sass": "^1.56.0",
         "sass-loader": "^13.1.0",
         "source-map-loader": "^4.0.1",
         "stylelint": "^14.14.1",

@@ -6,6 +6,7 @@ import * as React from 'react'
 import { Calc, priceReg } from './calc'
 import styles from './form.module.scss'
 
+import { Button } from '../../components/button'
 import { data, translations } from '../../stores'
 
 interface IFormProps {
@@ -22,10 +23,6 @@ function priceToText(price: number | string): string {
 
 export const Form: React.FC<IFormProps> = observer((props) => {
     const { editId, all } = data
-
-    const doCancel = React.useRef<HTMLDivElement>(null)
-    const doDelete = React.useRef<HTMLDivElement>(null)
-    const doSave = React.useRef<HTMLDivElement>(null)
 
     const [confirm, setConfirm] = React.useState(false)
 
@@ -84,42 +81,6 @@ export const Form: React.FC<IFormProps> = observer((props) => {
         }
     }, [edit, confirm])
 
-    React.useEffect(() => {
-        if (!doCancel.current) {
-            return
-        }
-
-        const touch = new Hammer(doCancel.current)
-
-        touch.on('tap', onCancel)
-
-        return () => touch.destroy()
-    }, [doCancel, onCancel])
-
-    React.useEffect(() => {
-        if (!doSave.current) {
-            return
-        }
-
-        const touch = new Hammer(doSave.current)
-
-        touch.on('tap', onSave)
-
-        return () => touch.destroy()
-    }, [doSave, onSave])
-
-    React.useEffect(() => {
-        if (!doDelete.current) {
-            return
-        }
-
-        const touch = new Hammer(doDelete.current)
-
-        touch.on('tap', onRemove)
-
-        return () => touch.destroy()
-    }, [doDelete, onRemove])
-
     return (
         <div className={clsx(styles.form, props.className)}>
             <h1>{translations.strings.form}</h1>
@@ -141,16 +102,14 @@ export const Form: React.FC<IFormProps> = observer((props) => {
                     <input size={4} type='text' value={priceToText(edit.unitPrice)} onChange={setPrice} />
                 </label>
                 <div>
-                    <div ref={doCancel} className='button'>
-                        {translations.strings.cancel}
-                    </div>
-                    <div ref={doSave} className={clsx('button', !canSave && 'disabled')}>
+                    <Button onClick={onCancel}>{translations.strings.cancel}</Button>
+                    <Button disabled={!canSave} onClick={onSave}>
                         {translations.strings.save}
-                    </div>
+                    </Button>
                     {editId && (
-                        <div ref={doDelete} className='button'>
+                        <Button bad={confirm} onClick={onRemove}>
                             {confirm ? translations.strings.confirm : translations.strings.remove}
-                        </div>
+                        </Button>
                     )}
                 </div>
             </div>

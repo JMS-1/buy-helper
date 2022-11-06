@@ -4,6 +4,7 @@ import * as React from 'react'
 
 import styles from './calc.module.scss'
 
+import { Button } from '../../components/button'
 import { translations } from '../../stores'
 
 interface ICalcProps {
@@ -16,7 +17,6 @@ export const priceReg = /^\s*\d+(,\d{0,2})?\s*$/
 export const amountReg = /^\s*\d+(,\d*)?\s*$/
 
 export const Calc: React.FC<ICalcProps> = observer((props) => {
-    const self = React.useRef<HTMLDivElement>(null)
     const focus = React.useRef<HTMLInputElement>(null)
 
     const [open, setOpen] = React.useState(false)
@@ -24,18 +24,6 @@ export const Calc: React.FC<ICalcProps> = observer((props) => {
     const [amount, setAmount] = React.useState('')
 
     const toggleOpen = React.useCallback(() => setOpen(!open), [open])
-
-    React.useEffect(() => {
-        if (!self.current) {
-            return
-        }
-
-        const touch = new Hammer(self.current)
-
-        touch.on('tap', toggleOpen)
-
-        return () => touch.destroy()
-    }, [self, toggleOpen])
 
     React.useEffect(() => {
         if (open) {
@@ -72,9 +60,7 @@ export const Calc: React.FC<ICalcProps> = observer((props) => {
 
     return (
         <div className={clsx(styles.calc, props.className)}>
-            <div ref={self} className='button'>
-                =
-            </div>
+            <Button onClick={toggleOpen}>=</Button>
             {open && (
                 <div className={styles.dialog}>
                     <h4>{calc.title}</h4>

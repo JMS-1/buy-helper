@@ -9,25 +9,6 @@ body {
     margin: 0;
     overflow: hidden;
     line-height: 1.2;
-
-    .button {
-        padding: 0.2em 0.3em;
-        text-align: center;
-        background: #eeeeee;
-        border: 1px solid black;
-        border-radius: 4px;
-        box-shadow: 1px 1px 0 grey;
-
-        &.disabled {
-            pointer-events: none;
-            cursor: unset;
-            opacity: 50%;
-        }
-
-        &:hover:not(.disabled) {
-            background: #dddddd;
-        }
-    }
 }
 
 * {
